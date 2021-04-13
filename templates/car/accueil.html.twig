@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block body %}
+
+<h1>Page d'accueil</h1>
+<div class="row">
+    <div class="col-6 offset-3">
+        {% for car in tabCars %}
+        <div class="card mb-2">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">ID - {{ car.id }}</li>
+                <li class="list-group-item">MARQUE - {{ car.marque }}</li>
+                <li class="list-group-item">MODELE - {{ car.modele }}</li>
+                <li class="list-group-item">PAYS - {{ car.pays }}</li>
+            </ul>
+            
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}autos{% endblock %}
+
+{% block body %}
+
+<h1>Liste des voitures</h1>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Marque</th>
+            <th>Modele</th>
+            <th>Pays</th>
+            <th>Prix</th>
+            <th>Description</th>
+            <th colspan="2">Actions</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        {% for car in tabCars %}
+        <tr>
+            <td>{{ car.id }}</td>
+            <td>{{ car.marque }}</td>
+            <td>{{ car.modele }}</td>
+            <td>{{ car.pays }}</td>
+            <td>{{ car.prix }}€</td>
+            <td>{{ car.Description }}</td>
+            <td><a href="{{ path('app_edit',{id: car.id}) }}">Edit</a></td>
+            <td><a onclick="return confirm('Etes-vou sûr de supprimer')" href="{{ path('app_delete',{id: car.id}) }}">Supprimer</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
