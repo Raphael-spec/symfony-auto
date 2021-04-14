@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Categories{% endblock %}
+
+{% block body %}
+
+<h1>Liste des categories</h1>
+<div class="text-end"><a href="{{ path('add_cat') }}" class="btn btn-success" ><i class="fas fa-plus"></i>Ajouter C</a></div>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Nom</th>
+            <th colspan="2">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for cat in tabCats %}
+        <tr>
+            <td>{{ cat.id }}</td>
+            <td>{{ cat.nom }}</td>
+            
+            <td><a class="btn btn-warning" href="{{path('app_edit', {id: cat.id}) }}"><i class="fas fa-edit"></i> Edit</a></td>                 
+            <td><a class="btn btn-danger" onclick="return confirm('Etes vous sur de vouloir suprimer pas')" href="{{path('app_delete_cat', {id: cat.id}) }}"><i class="fas fa-trash"></i> Supprimer</a></td>        
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

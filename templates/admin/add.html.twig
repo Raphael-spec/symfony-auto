@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Ajout car {% endblock %}
+
+{% block body %}
+
+<h1> Ajout d'une voiture</h1>
+        {# {{ form(form_car) }} #}
+
+    {{ form_start(form, {'attr':{'novalidate':'novalidate'}}) }}
+     {{ form_errors(form) }}
+
+    <div class="row">
+        <div class="col-6">
+            {{ form_row(form.marque, {'attr':{'placeholder':'Veuillez entrer la marque'}} ) }}
+            {# les formes s'aplliquent pour les trois #}
+        </div>
+        <div class="col-6">
+            {{ form_row(form.modele, {'attr':{'placeholder':'Veuillez entrer le modele'}}) }}
+        </div>
+    </div>
+        
+    {{ form_rest(form) }}
+    {# affiche tout le restepour specifier tous les champs que je ne specifie  #}
+
+
+    <button type="submit" class="btn btn-info col-12 mt-3">Ajouter!</button>
+    
+    {{ form_end(form) }}
+{% endblock %}

@@ -5,6 +5,7 @@
 {% block body %}
 
 <h1>Liste des voitures</h1>
+<div class="text-end"><a href="{{ path('app_add') }}" class="btn btn-success" ><i class="fas fa-plus"></i>Ajouter</a></div>
 <table class="table table-striped">
     <thead>
         <tr>
@@ -27,8 +28,8 @@
             <td>{{ car.pays }}</td>
             <td>{{ car.prix }}€</td>
             <td>{{ car.Description }}</td>
-            <td><a href="{{ path('app_edit',{id: car.id}) }}">Edit</a></td>
-            <td><a onclick="return confirm('Etes-vou sûr de supprimer')" href="{{ path('app_delete',{id: car.id}) }}">Supprimer</a></td>
+            <td><a class="btn btn-warning" href="{{path('app_edit', {id: car.id}) }}"><i class="fas fa-edit"></i> Edit</a></td>                 
+            <td><a class="btn btn-danger" onclick="return confirm('Etes vous sur de vouloir suprimer pas')" href="{{path('app_delete', {id: car.id}) }}"><i class="fas fa-trash"></i> Supprimer</a></td>        
         </tr>
         {% endfor %}
     </tbody>
