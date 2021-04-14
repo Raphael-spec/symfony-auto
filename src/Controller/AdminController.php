@@ -22,14 +22,14 @@ class AdminController extends AbstractController
      * 
      *@Route("/add", name="app_add")
      */
-    public function add(Request $request){// Obligatoire Pour recupere et traiter le formulaire
+    public function add(Request $request){// Obligatoire Pour recupere et traiter le formulaire(demande)
 
         
         $car = new Auto();
         
-        $form = $this->createForm(AutoType::class, $car);//Pas e builder puisqu'il est deja construit autotype est bindé lié à $car
+        $form = $this->createForm(AutoType::class, $car);//Pas de builder puisqu'il est deja construit autotype est bindé lié à $car (pas comme dans editavec builder)
        
-        $form->handleRequest($request); //on recupere le request pour le lié
+        $form->handleRequest($request); //on recupere le request pour le lié au form
        
         if($form->isSubmitted() && $form->isValid()){
             
@@ -88,7 +88,7 @@ class AdminController extends AbstractController
      *@Route("/edit/{id}", name="app_edit")
      */
     // public function editAuto($id, AutoRepository $autoRepo){// ou 2eme methode on appelle directement le repository
-    //     // $car = $this->getDoctrine()->getRepository(Auto::class)->find($id);// 1er methode
+    //    // $car = $this->getDoctrine()->getRepository(Auto::class)->find($id);// 1er methode
     //     $car = $autoRepo->find($id);//2eme methode
 
     //     dd($car);

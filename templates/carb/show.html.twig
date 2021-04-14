@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Carburant{% endblock %}
+
+{% block body %}
+    <h1>Carburant</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ carburant.id }}</td>
+            </tr>
+            <tr>
+                <th>NomCarb</th>
+                <td>{{ carburant.nomCarb }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('carb_index') }}">back to list</a>
+
+    <a href="{{ path('carb_edit', {'id': carburant.id}) }}">edit</a>
+
+    {{ include('carb/_delete_form.html.twig') }}
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Carburant{% endblock %}
+
+{% block body %}
+    <h1>Create new Carburant</h1>
+
+    {{ include('carb/_form.html.twig') }}
+
+    <a href="{{ path('carb_index') }}">back to list</a>
+{% endblock %}

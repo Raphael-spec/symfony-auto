@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Carburant{% endblock %}
+
+{% block body %}
+    <h1>Edit Carburant</h1>
+
+    {{ include('carb/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('carb_index') }}">back to list</a>
+
+    {{ include('carb/_delete_form.html.twig') }}
+{% endblock %}
