@@ -37,7 +37,7 @@ class AdminController extends AbstractController
        
         if($form->isSubmitted() && $form->isValid()){
 
-            $file = $form->get('image')->getData();
+            $file = $form->get('image')->getData();// ce qu'il ya dans le input et recupere data
             //dd($file);
 
             if($file){
@@ -103,18 +103,22 @@ class AdminController extends AbstractController
        return $this->render("admin/list.html.twig", ["tabCars" => $cars, "form_search"=>$form->createview()]);
     }
     
-    /**
-     * 
-     *@Route("/edit/{id}", name="app_edit")
-     */
     // public function editAuto($id, AutoRepository $autoRepo){// ou 2eme methode on appelle directement le repository
-    //    // $car = $this->getDoctrine()->getRepository(Auto::class)->find($id);// 1er methode
-    //     $car = $autoRepo->find($id);//2eme methode
+        //    // $car = $this->getDoctrine()->getRepository(Auto::class)->find($id);// 1er methode
+        //     $car = $autoRepo->find($id);//2eme methode
+        
+        //     dd($car);
+        //     return;
+        
+        // }
+        
+        
+        
+        /**
+         * 
+         *@Route("/edit/{id}", name="app_edit")
+         */
 
-    //     dd($car);
-    //     return;
-
-    // }
     public function editAuto(Auto $car, Request $request, EntityManagerInterface $em){//3 eme grace a la route il sait qu'on veut un id, donc il envoie l'objet equivalent //le request c'est pour la modification
         // construire un formulaire lié à $car
        $form =  $this->createFormBuilder($car)
@@ -145,6 +149,13 @@ class AdminController extends AbstractController
         ]);
 
     }
+
+
+
+
+
+
+
 
      /**
      * 
