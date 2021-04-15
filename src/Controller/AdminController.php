@@ -26,14 +26,14 @@ class AdminController extends AbstractController
      * 
      *@Route("/add", name="app_add")
      */
-    public function add(Request $request){// Obligatoire Pour recupere et traiter le formulaire(demande)
+    public function add(Request $request){// Obligatoire Pour recupere et traiter le formulaire(demande) forulaire = obliger requete
 
         
         $car = new Auto();
         
         $form = $this->createForm(AutoType::class, $car);//Pas de builder puisqu'il est deja construit autotype est bindé lié à $car (pas comme dans editavec builder)
        
-        $form->handleRequest($request); //on recupere le request pour le lié au form
+        $form->handleRequest($request); //on recupere le request pour le lié au formulaire"handle"
        
         if($form->isSubmitted() && $form->isValid()){
 
@@ -47,13 +47,16 @@ class AdminController extends AbstractController
             $car->setImage($fileName);
             
             $em = $this->getDoctrine()->getManager();
-                $em->persist($car);
-                $em->flush();
+                $em->persist($car);//persist (tu presauvegarde)
+                $em->flush();//flush(tu execute)
                 
 
-                $this->addFlash('success', 'Voiture enregistrée');
+                $this->addFlash('success', 'Voiture enregistrée');// addflash propre au systeme comme beauciup d'autres
                 return $this->redirectToRoute("app_list");
             }
+
+
+            //ca c'tait avant quon avait creer en dur avnat la fonction au dessus
         // $auto1 = new Auto();
         
         // $auto1->setMarque("Peugeot");
@@ -80,7 +83,7 @@ class AdminController extends AbstractController
        // return new Response("Voitures ajoutées!!!");
        
        return $this->render('admin/add.html.twig', [
-        'form'=> $form->createView() ]); // cree une vue ddu formulaire , proposer avoir un form correspondant a cet objet
+        'form'=> $form->createView() ]); // cree une vue ddu formulaire automatiuqement puisque on a creée un formulaire , proposer avoir un form correspondant a cet objet
     }
 
     /**
@@ -100,7 +103,7 @@ class AdminController extends AbstractController
         $cars = $repo->findAll();
        // dd($cars); //dump et die
 
-       return $this->render("admin/list.html.twig", ["tabCars" => $cars, "form_search"=>$form->createview()]);
+       return $this->render("admin/list.html.twig", ["tabCars" => $cars, "form_search"=>$form->createview()]);//comme preciser au dessus un formulaire crée un create meme si on ne l'a pas fait avec la ligne de commande
     }
     
     // public function editAuto($id, AutoRepository $autoRepo){// ou 2eme methode on appelle directement le repository
@@ -111,8 +114,6 @@ class AdminController extends AbstractController
         //     return;
         
         // }
-        
-        
         
         /**
          * 
@@ -149,14 +150,6 @@ class AdminController extends AbstractController
         ]);
 
     }
-
-
-
-
-
-
-
-
      /**
      * 
      *@Route("/delete/{id}", name="app_delete")
