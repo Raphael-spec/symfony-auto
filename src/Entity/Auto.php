@@ -28,7 +28,7 @@ class Auto
      * @Assert\NotBlank(message="Ce champs est requis")
      * @Assert\Length(
      *      min = 2,
-     *      max = 5,
+     *      max = 10,
      *      minMessage = "Le modele doit avoir au moins {{ limit }} caracteres ",
      *      maxMessage = "Le modele doit avoir au plus {{ limit }} caracteres"
      * )
@@ -49,6 +49,17 @@ class Auto
      * @ORM\Column(type="text", nullable=true)
      */
     private $description;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Categorie::class, inversedBy="autos")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $categorie;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $image;
 
     public function getId(): ?int
     {
@@ -111,6 +122,30 @@ class Auto
     public function setDescription(?string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getCategorie(): ?Categorie
+    {
+        return $this->categorie;
+    }
+
+    public function setCategorie(?Categorie $categorie): self
+    {
+        $this->categorie = $categorie;
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): self
+    {
+        $this->image = $image;
 
         return $this;
     }

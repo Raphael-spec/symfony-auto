@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Auto;
+use App\Entity\Categorie;
+use App\Entity\Search;
 use App\Form\AutoType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -10,6 +12,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\AutoRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -32,6 +36,15 @@ class AdminController extends AbstractController
         $form->handleRequest($request); //on recupere le request pour le lié au form
        
         if($form->isSubmitted() && $form->isValid()){
+
+            $file = $form->get('image')->getData();
+            //dd($file);
+
+            if($file){
+                $fileName = md5(uniqid()).'.'.$file->guessExtension();
+                $file->move($this->getParameter('images_directory'), $fileName);
+            }
+            $car->setImage($fileName);
             
             $em = $this->getDoctrine()->getManager();
                 $em->persist($car);
@@ -67,20 +80,27 @@ class AdminController extends AbstractController
        // return new Response("Voitures ajoutées!!!");
        
        return $this->render('admin/add.html.twig', [
-        'form'=> $form->createView() ]);
+        'form'=> $form->createView() ]); // cree une vue ddu formulaire , proposer avoir un form correspondant a cet objet
     }
 
     /**
      * 
      *@Route("/list", name="app_list")
      */
-    public function getAutos(){
+    public function getAutos(Request $request){
+
+        $search = new Search();
+
+        $form =  $this->createFormBuilder($search)
+                      ->add('mcle', TextType::class, ['label'=>'Rechercher', 'attr'=>['placeholder'=>'Va chercher...']])
+                      ->getForm();
+        $form->handleRequest($request);
 
         $repo = $this->getDoctrine()->getRepository(Auto::class);
         $cars = $repo->findAll();
        // dd($cars); //dump et die
 
-       return $this->render("admin/list.html.twig", ["tabCars" => $cars]);
+       return $this->render("admin/list.html.twig", ["tabCars" => $cars, "form_search"=>$form->createview()]);
     }
     
     /**
@@ -102,7 +122,10 @@ class AdminController extends AbstractController
                     ->add('modele')
                     ->add('pays')
                     ->add('prix', NumberType::class)
+                    ->add('categorie', EntityType::class, ['label'=>'Categorie', 'class'=>Categorie::class,'choice_label'=>'nom', 'attr'=>['class'=>'form-select']])
+                    ->add('image', FileType::class,['label'=>'image','attr'=>['class'=>'form-control']] )
                     ->add('description')
+
                     // ->add('Modifier', SubmitType::class)
                     ->getForm();
         $form->handleRequest($request);
