@@ -128,16 +128,30 @@ class AdminController extends AbstractController
                     ->add('pays')
                     ->add('prix', NumberType::class)
                     ->add('categorie', EntityType::class, ['label'=>'Categorie', 'class'=>Categorie::class,'choice_label'=>'nom', 'attr'=>['class'=>'form-select']])
-                    ->add('image', FileType::class,['label'=>'image','attr'=>['class'=>'form-control']] )
+                    ->add('image', FileType::class,['label'=>'image', 'data_class'=> null, 'required'=>false, 'attr'=>['class'=>'form-control']] )
                     ->add('description')
 
                     // ->add('Modifier', SubmitType::class)
                     ->getForm();
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
-            $updateCar = $form->getData();
+           // $updateCar = $form->getData();
             // $em = $this->getDoctrine()->getManager(); //plus besoin de cette phrase si on ecrit entitymanager interface
+
+            $edit_image = $car->getImage();
+            $file = $form->get('image')->getData();// ce qu'il ya dans le input et recupere data
+            //dd($file);
+            if($file){
+                $fileName = md5(uniqid()).'.'.$file->guessExtension();
+                $file->move($this->getParameter('images_directory'), $fileName);
+                $car->setImage($fileName);
+            }else{
+
+               $car->setImage($edit_image);
+            }
+
             $em->flush();
+            
             $this->addFlash('success', 'Voiture modifiéé');
             return $this->redirectToRoute("app_list");
 
